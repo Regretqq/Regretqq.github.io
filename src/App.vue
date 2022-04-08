@@ -1,22 +1,28 @@
-<template>
+<template id="template">
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <H1>Engraving calculator</H1>
+    <br>
+    <Engravings/>
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+
+import Engravings from "@/components/Engravings";
 
 export default {
   name: 'App',
   components: {
-    HelloWorld
+    Engravings
+  },
+  beforeCreate () {
+    document.querySelector('body').setAttribute('style', 'background:#fff')
   }
 }
 </script>
 
 <style>
+
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -24,5 +30,7 @@ export default {
   text-align: center;
   color: #2c3e50;
   margin-top: 60px;
+
 }
+
 </style>
