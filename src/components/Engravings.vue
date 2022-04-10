@@ -90,7 +90,11 @@ export default {
 
   },
   mounted() {
-    this.accessories = JSON.parse(localStorage.getItem(storageKey))
+
+    let tempAcc = JSON.parse(localStorage.getItem(storageKey))
+    if(tempAcc != null){
+      this.accessories = tempAcc
+    }
     this.calculateEngravings()
   },
   methods:{
