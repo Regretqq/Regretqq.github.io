@@ -7,10 +7,10 @@ import 'bootstrap-vue/dist/bootstrap-vue.css'
 
 
 
+
 Vue.config.productionTip = false
 Vue.use(popper)
 Vue.use(BootstrapVue);
 new Vue({
   render: h => h(App),
-  data:{color: '#2c3e50'},
 }).$mount('#app')

@@ -1,0 +1,18 @@
+export let classes = [
+    {text: "All", value: ""},
+    {text: "Artillerist", value: "Artillerist"},
+    {text: "Bard", value: "Bard"},
+    {text: "Berserker", value: "Berserker"},
+    {text: "Deadeye", value: "Deadeye"},
+    {text: "Deathblade", value: "Deathblade"},
+    {text: "Gunlancer", value: "Gunlancer"},
+    {text: "Gunslinger", value: "Gunslinger"},
+    {text: "Paladin", value: "Paladin"},
+    {text: "Scrapper", value: "Scrapper"},
+    {text: "Shadowhunter", value: "Shadowhunter"},
+    {text: "Sharpshooter", value: "Sharpshooter"},
+    {text: "Sorceress", value: "Sorceress"},
+    {text: "Soulfist", value: "Soulfist"},
+    {text: "Striker", value: "Striker"},
+    {text: "Wardancer", value: "Wardancer"},
+]
