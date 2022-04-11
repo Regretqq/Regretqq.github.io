@@ -7,7 +7,7 @@
       </div>
       <div class="filterDiv">
         <p class="filters">Filter class engravings</p>
-        <b-form-select :options="classes" v-model="classFilter" v-on:change="filterClassEngravings()"></b-form-select>
+        <b-form-select :options="classes" v-model="classFilter" v-on:change="filterClassEngravings()" class="inputs"></b-form-select>
       </div>
       <div class="filterDiv">
         <b-button v-on:click="resetAccessories()">Reset</b-button>
@@ -31,12 +31,12 @@
     <tbody>
         <tr v-for="acc in accessories" :key="acc.name">
           <td class="tdAmount"><img :src="getSrc(acc.name)" class="images"></td>
-          <td><b-form-select v-model="acc.eng1" :options="(engList(acc))" v-on:change="calculateEngravings()" class="inputEngraving"></b-form-select></td>
-          <td class="tdAmount"><input v-model="acc.amount1" type="number"  v-on:input="calculateEngravings()" class="inputAmount"></td>
-          <td><b-form-select v-model="acc.eng2" :options="(engList(acc))" v-on:change="calculateEngravings()" class="inputEngraving"></b-form-select></td>
-          <td class="tdAmount"><input v-model="acc.amount2" type="number"  v-on:input="calculateEngravings()" class="inputAmount"></td>
-          <td><b-form-select v-if="acc.name !== 'Seals'" v-model="acc.neg"  :options="negativeEng" v-on:change="calculateEngravings()" class="inputEngraving"></b-form-select></td>
-          <td><input v-if="acc.name !== 'Seals'" v-model="acc.amountNeg" type="number" v-on:input="calculateEngravings()" class="inputAmount"></td>
+          <td><b-form-select v-model="acc.eng1" :options="(engList(acc))" v-on:change="calculateEngravings()" class="inputs inputEngraving"></b-form-select></td>
+          <td class="tdAmount"><input v-model="acc.amount1" type="number"  v-on:input="calculateEngravings()" class="inputs inputAmount"></td>
+          <td><b-form-select v-model="acc.eng2" :options="(engList(acc))" v-on:change="calculateEngravings()" class="inputs inputEngraving"></b-form-select></td>
+          <td class="tdAmount"><input v-model="acc.amount2" type="number"  v-on:input="calculateEngravings()" class="inputs inputAmount"></td>
+          <td><b-form-select v-if="acc.name !== 'Seals'" v-model="acc.neg"  :options="negativeEng" v-on:change="calculateEngravings()" class="inputs inputEngraving"></b-form-select></td>
+          <td><input v-if="acc.name !== 'Seals'" v-model="acc.amountNeg" type="number" v-on:input="calculateEngravings()" class="inputs inputAmount"></td>
         </tr>
       </tbody>
     </table>
@@ -44,15 +44,15 @@
       <h4 style="width: 270px">Positive Engravings</h4>
       <div v-for="engraving in sortedArray" :key="engraving.key" class="engravingDiv">
         <p class="engraving">{{engraving.engraving}}:{{checkLevel(engraving.amount)}}</p>
-        <div :class="level(i, engraving.amount)" v-for="i in 3" :key="i"></div>
+        <div :class="'level ' + level(i, engraving.amount)" v-for="i in 3" :key="i"></div>
         <br>
       </div>
     </div>
     <div class="active">
       <h4 style="width: 270px">Negative Engravings</h4>
       <div v-for="engraving in sortedNegative" :key="engraving.key" class="engravingDiv">
-        <p class="negEngraving">{{engraving.engraving}}:{{checkLevel(engraving.amount)}}</p>
-        <div :class="levelNegative(i, engraving.amount)" v-for="i in 3" :key="i"></div>
+        <p class="engraving">{{engraving.engraving}}:{{checkLevel(engraving.amount)}}</p>
+        <div :class="'level ' + levelNegative(i, engraving.amount)" v-for="i in 3" :key="i"></div>
         <br>
       </div>
     </div>
@@ -188,7 +188,7 @@ export default {
       if(i * 5 <= amount){
         return "NAbovelevel"
       }
-      return "NUnderlevel"
+      return "underlevel"
     }
 
   },
@@ -214,10 +214,15 @@ h4{
 p{
   color: #ffffff;
 }
+button{
+  background-color: #303a45;
+}
+
+
 #table{
   display: inline-block;
   color: #ffffff;
-  outline: grey solid 1px;
+  outline: #303a45 solid 1px;
   outline-offset: 5px;
   margin-right: 1%;
 
@@ -229,45 +234,24 @@ p{
   vertical-align: top;
 }
 
-.abovelevel{
+.level{
   width: 88px;
   height: 15px;
   outline-style: solid;
-  outline-color: #0B4257;
+  outline-color: #303a45;
+  display: inline-block;
+  margin: 0;
+  padding: 0;
+}
+
+.level.abovelevel{
   background-color: #50C1EA;
-  display: inline-block;
-  margin: 0;
-  padding: 0;
 }
-.underlevel{
-  width: 88px;
-  height: 15px;
-  outline-style: solid;
-  outline-color: #0B4257;
-  display: inline-block;
+.level.underlevel{
   background-color: darkgrey;
-  margin: 0;
-  padding: 0;
 }
-.NAbovelevel{
-  width: 88px;
-  height: 15px;
-  outline-style: solid;
-  outline-color: #0B4257;
+.level.NAbovelevel{
   background-color: darkred;
-  display: inline-block;
-  margin: 0;
-  padding: 0;
-}
-.NUnderlevel{
-  width: 88px;
-  height: 15px;
-  outline-style: solid;
-  outline-color: #0B4257;
-  display: inline-block;
-  background-color: darkgray;
-  margin: 0;
-  padding: 0;
 }
 
 
@@ -276,15 +260,9 @@ p{
   width: 270px;
   margin: 0;
   padding: 0;
-  background: #0B4257;
+  background: #303a45;
 }
-.negEngraving{
-  align-content: center;
-  width: 270px;
-  margin: 0;
-  padding: 0;
-  background: #0B4257;
-}
+
 
 .engravingDiv{
   margin-bottom: 2px;
@@ -299,13 +277,19 @@ p{
   display: inline-block;
 }
 
-.inputAmount{
+.inputs{
+  background-color: #303a45;
+  color: #ffffff;
+  border: inset darkgray 1px;
+}
+
+.inputs.inputAmount{
   width: 50px;
   height: 25px;
 
 
 }
-.inputEngraving {
+.inputs.inputEngraving {
   width: 220px;
   height: 25px;
 }
