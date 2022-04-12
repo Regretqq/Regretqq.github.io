@@ -91,7 +91,6 @@ export default {
 
   },
   mounted() {
-
     let tempAcc = JSON.parse(localStorage.getItem(storageKey))
     if(tempAcc != null){
       this.accessories = tempAcc
@@ -99,6 +98,7 @@ export default {
     this.calculateEngravings()
   },
   methods:{
+    //gets current engraving levels from inputs
     calculateEngravings(){
       this.emptyArrays()
       this.accessories.forEach(i => {
@@ -130,6 +130,7 @@ export default {
     saveAccessories(){
       localStorage.setItem(storageKey,JSON.stringify(this.accessories))
     },
+    //Returns an array of possible engravings for the slot
     engList(acc) {
       switch (acc.Type) {
         case "Accessory":
@@ -140,6 +141,7 @@ export default {
           return this.combatEng.concat(this.classEng)
       }
     },
+    //Calculates the level of an engraving based on its points
     checkLevel(value){
       let lvl = value/5 < 3 ? Math.floor(value/5) : 3
       return " lvl." + lvl + " (" + value +")";
@@ -148,8 +150,8 @@ export default {
       let image = require.context('../assets', false ,/\.png$/)
       return image('./' + name + ".png")
     },
+    //Compare function for sorting arrays based on engraving values
     compare(a,b){
-
       if(parseInt(a.amount) > parseInt(b.amount)){
         return -1;
       }
@@ -158,6 +160,7 @@ export default {
       }
       return 0
     },
+    //Filters combat engravings based on user input
     filterCombatEngravings(){
       if(this.engravingFilter){
         this.combatEng = this.usefulEngravings
@@ -167,11 +170,13 @@ export default {
       this.combatEng = combatEngravings
       this.calculateEngravings()
     },
+    //filter class engravings based on user input
     filterClassEngravings(){
       this.classEng = classEngravings.filter(engraving =>{
         return engraving.class.includes(this.classFilter)})
       this.calculateEngravings()
     },
+    //Resets all input fields
     resetAccessories(){
       this.accessories.forEach(accessory =>{
         accessory.amount1 = 0
@@ -183,19 +188,21 @@ export default {
       })
       this.calculateEngravings()
     },
+    //decides css class based on engraving level for positive engravings
     level(i, amount){
       if(i * 5 <= amount){
         return "abovelevel"
       }
       return "underlevel"
     },
-
+    //decides css class based on engraving level for negative engravings
     levelNegative(i, amount){
       if(i * 5 <= amount){
         return "NAbovelevel"
       }
       return "underlevel"
     },
+    //Returns possible input values for engraving points
     getValues(type){
       switch(type){
         case "Accessory":
@@ -210,6 +217,7 @@ export default {
 
   },
   computed:{
+    //Sorts the arrays based on engraving points
     sortedArray(){
       return this.engravingArray.slice().sort(this.compare)
     },

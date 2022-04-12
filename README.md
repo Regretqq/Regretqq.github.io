@@ -1,24 +1,8 @@
-# engraving
+# Engraving calculator
 
-## Project setup
-```
-npm install
-```
+https://regretqq.github.io/
 
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
 
-### Compiles and minifies for production
-```
-npm run build
-```
+A tool for planning engraving setups for Lost Ark
 
-### Lints and fixes files
-```
-npm run lint
-```
 
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
