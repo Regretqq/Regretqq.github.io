@@ -36,6 +36,7 @@ h1{
   text-align: center;
   margin-top: 30px;
   background: #15202B;
+  color: white;
 
 }
 

@@ -13,8 +13,7 @@
         <b-button v-on:click="resetAccessories()">Reset</b-button>
       </div>
     </div>
-    <br>
-    <br>
+    <br><br>
     <table id="table">
       <thead>
         <tr>
@@ -27,16 +26,15 @@
           <th scope="col">+#</th>
         </tr>
       </thead>
-
     <tbody>
         <tr v-for="acc in accessories" :key="acc.name">
           <td class="tdAmount"><img :src="getSrc(acc.name)" class="images"></td>
           <td><b-form-select v-model="acc.eng1" :options="(engList(acc))" v-on:change="calculateEngravings()" class="inputs inputEngraving"></b-form-select></td>
-          <td class="tdAmount"><input v-model="acc.amount1" type="number"  v-on:input="calculateEngravings()" class="inputs inputAmount"></td>
+          <td class="tdAmount"><b-form-select v-model="acc.amount1" v-on:input="calculateEngravings()" :options="getValues(acc.Type)" class="inputs inputAmount"></b-form-select></td>
           <td><b-form-select v-model="acc.eng2" :options="(engList(acc))" v-on:change="calculateEngravings()" class="inputs inputEngraving"></b-form-select></td>
-          <td class="tdAmount"><input v-model="acc.amount2" type="number"  v-on:input="calculateEngravings()" class="inputs inputAmount"></td>
+          <td class="tdAmount"><b-form-select v-model="acc.amount2" v-on:input="calculateEngravings()" :options="getValues(acc.Type)" class="inputs inputAmount"></b-form-select></td>
           <td><b-form-select v-if="acc.name !== 'Seals'" v-model="acc.neg"  :options="negativeEng" v-on:change="calculateEngravings()" class="inputs inputEngraving"></b-form-select></td>
-          <td><input v-if="acc.name !== 'Seals'" v-model="acc.amountNeg" type="number" v-on:input="calculateEngravings()" class="inputs inputAmount"></td>
+          <td><b-form-select v-if="acc.name !== 'Seals'" v-model="acc.amountNeg" type="number" v-on:input="calculateEngravings()" :options="getValues(acc.Type)" class="inputs inputAmount"></b-form-select></td>
         </tr>
       </tbody>
     </table>
@@ -67,6 +65,8 @@ import {negativeEngravings} from "@/components/NegativeEngravings";
 import {engravingSources} from "@/components/EngravingSources";
 import {usefulEngravings} from "@/components/UsefulEngravings";
 import {classes} from "@/components/Classes";
+import {values} from '@/components/EngravingSources';
+
 const storageKey = "accessories"
 export default {
 
@@ -85,7 +85,8 @@ export default {
       activeEngravings:{},
       activeNegativeEngravings: {},
       engravingArray: [],
-      negativeArray: []
+      negativeArray: [],
+      values: values
     }
 
   },
@@ -99,10 +100,7 @@ export default {
   },
   methods:{
     calculateEngravings(){
-      this.activeEngravings = {}
-      this.activeNegativeEngravings= {}
-      this.engravingArray = []
-      this.negativeArray = []
+      this.emptyArrays()
       this.accessories.forEach(i => {
         if(i.eng1 !== '' && i.amount1 > 0){
           this.activeEngravings[i.eng1] = this.activeEngravings[i.eng1] !== undefined ? parseInt(this.activeEngravings[i.eng1]) + parseInt(i.amount1) : i.amount1
@@ -123,6 +121,12 @@ export default {
       this.saveAccessories()
 
     },
+    emptyArrays(){
+      this.activeEngravings = {}
+      this.activeNegativeEngravings= {}
+      this.engravingArray = []
+      this.negativeArray = []
+    },
     saveAccessories(){
       localStorage.setItem(storageKey,JSON.stringify(this.accessories))
     },
@@ -132,6 +136,8 @@ export default {
           return this.combatEng.concat(this.classEng)
         case "Stone":
           return this.combatEng
+        case "Seal":
+          return this.combatEng.concat(this.classEng)
       }
     },
     checkLevel(value){
@@ -189,6 +195,17 @@ export default {
         return "NAbovelevel"
       }
       return "underlevel"
+    },
+    getValues(type){
+      switch(type){
+        case "Accessory":
+          return this.values[0].Accessory
+        case "Stone":
+          return this.values[1].Stone
+        case "Seal":
+          return this.values[2].Seal
+      }
+
     }
 
   },
@@ -205,15 +222,7 @@ export default {
 
 <style scoped>
 
-h1{
-  color: #ffffff;
-}
-h4{
-  color: #ffffff;
-}
-p{
-  color: #ffffff;
-}
+
 button{
   background-color: #303a45;
 }
@@ -221,7 +230,6 @@ button{
 
 #table{
   display: inline-block;
-  color: #ffffff;
   outline: #303a45 solid 1px;
   outline-offset: 5px;
   margin-right: 1%;
@@ -278,8 +286,8 @@ button{
 }
 
 .inputs{
+  color: white;
   background-color: #303a45;
-  color: #ffffff;
   border: inset darkgray 1px;
 }
 
