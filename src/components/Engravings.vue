@@ -28,7 +28,7 @@
       </thead>
     <tbody>
         <tr v-for="acc in accessories" :key="acc.name">
-          <td class="tdAmount"><img :src="getSrc(acc.name)" class="images"></td>
+          <td class="tdAmount"><img :src="getSrc(acc.name)" :alt="'Accessory: ' +acc.name" class="images"></td>
           <td><b-form-select v-model="acc.eng1" :options="(engList(acc))" v-on:change="calculateEngravings()" class="inputs inputEngraving"></b-form-select></td>
           <td class="tdAmount"><b-form-select v-model="acc.amount1" v-on:input="calculateEngravings()" :options="getValues(acc.Type)" class="inputs inputAmount"></b-form-select></td>
           <td><b-form-select v-model="acc.eng2" :options="(engList(acc))" v-on:change="calculateEngravings()" class="inputs inputEngraving"></b-form-select></td>
@@ -39,19 +39,21 @@
       </tbody>
     </table>
     <div class="active">
-      <h4 style="width: 270px">Positive Engravings</h4>
+      <h4>Positive Engravings</h4>
       <div v-for="engraving in sortedArray" :key="engraving.key" class="engravingDiv">
         <p class="engraving">{{engraving.engraving}}:{{checkLevel(engraving.amount)}}</p>
+        <div class="levelbg">
         <div :class="'level ' + level(i, engraving.amount)" v-for="i in 3" :key="i"></div>
-        <br>
+        </div>
       </div>
     </div>
     <div class="active">
-      <h4 style="width: 270px">Negative Engravings</h4>
+      <h4>Negative Engravings</h4>
       <div v-for="engraving in sortedNegative" :key="engraving.key" class="engravingDiv">
         <p class="engraving">{{engraving.engraving}}:{{checkLevel(engraving.amount)}}</p>
-        <div :class="'level ' + levelNegative(i, engraving.amount)" v-for="i in 3" :key="i"></div>
-        <br>
+        <div class="levelbg">
+          <div :class="'level ' + levelNegative(i, engraving.amount)" v-for="i in 3" :key="i"></div>
+        </div>
       </div>
     </div>
   </div>
@@ -66,6 +68,7 @@ import {engravingSources} from "@/components/EngravingSources";
 import {usefulEngravings} from "@/components/UsefulEngravings";
 import {classes} from "@/components/Classes";
 import {values} from '@/components/EngravingSources';
+
 
 const storageKey = "accessories"
 export default {
@@ -250,12 +253,15 @@ button{
   vertical-align: top;
 }
 
+.levelbg{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+}
+
 .level{
-  width: 88px;
+  width: 83px;
   height: 15px;
-  outline-style: solid;
-  outline-color: #303a45;
-  display: inline-block;
   margin: 0;
   padding: 0;
 }
@@ -273,15 +279,16 @@ button{
 
 .engraving{
   align-content: center;
-  width: 270px;
   margin: 0;
   padding: 0;
-  background: #303a45;
 }
 
-
 .engravingDiv{
-  margin-bottom: 2px;
+  width: 275px;
+  border-radius: 5px;
+  margin-bottom: 0.5em;
+  background-color: #303a45;
+  padding: 0 5px 5px;
 }
 
 .filterDiv{
@@ -302,15 +309,13 @@ button{
 .inputs.inputAmount{
   width: 50px;
   height: 25px;
-
-
 }
 .inputs.inputEngraving {
   width: 220px;
   height: 25px;
 }
 .tdAmount{
-  padding-right: 5px;
+  padding-right: 0.5em;
 }
 
 .images{
